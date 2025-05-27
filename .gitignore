@@ -1,0 +1,15 @@
+# Ignore node_modules folders
+client/node_modules/
+server/node_modules/
+
+# Ignore build and cache folders
+client/build/
+client/.next/
+client/dist/
+
+# Ignore log files
+*.log
+
+# Ignore system files
+.DS_Store
+Thumbs.db
