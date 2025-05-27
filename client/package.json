@@ -8,16 +8,12 @@
     "react-scripts": "5.0.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "next start",
+    "build": "next build",
+    "dev": "next dev",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "scripts": {
-  "dev": "next dev",
-  "build": "next build",
-  "start": "next start"
-  }
   "browserslist": {
     "production": [
       ">0.2%",
