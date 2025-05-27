@@ -13,6 +13,11 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+  "scripts": {
+  "dev": "next dev",
+  "build": "next build",
+  "start": "next start"
+  }
   "browserslist": {
     "production": [
       ">0.2%",
