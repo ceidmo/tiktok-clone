@@ -11,3 +11,9 @@ export const devices = {
   laptop: `(max-width: ${sizes.laptop})`,
   desktop: `(max-width: ${sizes.desktop})`,
 };
+
+// Optional: Add mixin functions if you're using CSS-in-JS
+export const mobile = `@media ${devices.mobile}`;
+export const tablet = `@media ${devices.tablet}`;
+export const laptop = `@media ${devices.laptop}`;
+export const desktop = `@media ${devices.desktop}`;
