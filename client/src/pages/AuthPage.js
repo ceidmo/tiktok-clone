@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
@@ -47,6 +47,8 @@ const AuthButton = styled.button`
   font-size: 16px;
   cursor: pointer;
   margin-top: 1rem;
+  opacity: ${({ disabled }) => (disabled ? 0.6 : 1)};
+  pointer-events: ${({ disabled }) => (disabled ? 'none' : 'auto')};
 
   &:hover {
     background-color: #e41e4a;
@@ -73,7 +75,16 @@ function AuthPage() {
     password: ''
   });
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  // Redirect if already logged in
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      navigate('/');
+    }
+  }, [navigate]);
 
   const handleChange = (e) => {
     setFormData({
@@ -85,17 +96,24 @@ function AuthPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    setLoading(true);
 
     try {
       const endpoint = isLogin ? '/api/auth/login' : '/api/auth/register';
       const response = await axios.post(endpoint, formData);
-
-      // Save token and redirect
       localStorage.setItem('token', response.data.token);
       navigate('/');
     } catch (err) {
       setError(err.response?.data?.message || 'Authentication failed');
+    } finally {
+      setLoading(false);
     }
+  };
+
+  const toggleForm = () => {
+    setFormData({ username: '', email: '', password: '' });
+    setError('');
+    setIsLogin(!isLogin);
   };
 
   return (
@@ -135,15 +153,15 @@ function AuthPage() {
           minLength="6"
         />
 
-        <AuthButton type="submit">
-          {isLogin ? 'Log In' : 'Sign Up'}
+        <AuthButton type="submit" disabled={loading}>
+          {loading ? 'Please wait...' : isLogin ? 'Log In' : 'Sign Up'}
         </AuthButton>
 
         <AuthToggle>
           {isLogin ? (
-            <>Don't have an account? <span onClick={() => setIsLogin(false)}>Sign up</span></>
+            <>Don't have an account? <span onClick={toggleForm}>Sign up</span></>
           ) : (
-            <>Already have an account? <span onClick={() => setIsLogin(true)}>Log in</span></>
+            <>Already have an account? <span onClick={toggleForm}>Log in</span></>
           )}
         </AuthToggle>
       </AuthForm>
