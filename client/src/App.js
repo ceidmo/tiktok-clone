@@ -72,6 +72,14 @@ function App() {
                 <Route path="/video/:id" element={<VideoDetailPage />} />
 
                 {/* Protected Routes */}
+                 <Route 
+                   path="/analytics" 
+                    element={
+                      <AnalyticsDashboard />
+                      </ProtectedRoute>
+                    } 
+                  />
+                  
                 <Route
                   path="/"
                   element={
