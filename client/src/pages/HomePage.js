@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 import { FaHeart, FaRegHeart, FaComment, FaShare, FaMusic } from 'react-icons/fa';
+import { trackEvent } from '../utils/analytics'; // ✅ NEW
 
 // Styled components
 const HomeContainer = styled.div`
@@ -81,6 +82,8 @@ function HomePage() {
   const videoRefs = useRef([]);
 
   useEffect(() => {
+    trackEvent('Page Viewed', { page: 'Home' }); // ✅ Log homepage view
+
     const fetchVideos = async () => {
       try {
         const response = await axios.get('/api/videos');
@@ -96,17 +99,14 @@ function HomePage() {
   }, []);
 
   const handleScroll = () => {
-    // Pause all videos that are not in view
     videoRefs.current.forEach((videoRef, index) => {
       if (videoRef) {
         const rect = videoRef.getBoundingClientRect();
         if (rect.top >= 0 && rect.bottom <= window.innerHeight) {
-          // Video is in view
           if (videoRef.paused) {
             videoRef.play().catch(e => console.log('Autoplay prevented:', e));
           }
         } else {
-          // Video is out of view
           if (!videoRef.paused) {
             videoRef.pause();
           }
@@ -123,6 +123,7 @@ function HomePage() {
           ? { ...video, likes: video.liked ? video.likes - 1 : video.likes + 1, liked: !video.liked }
           : video
       ));
+      trackEvent('Video Liked', { videoId }); // ✅ Log like event
     } catch (err) {
       console.error('Failed to like video:', err);
     }
