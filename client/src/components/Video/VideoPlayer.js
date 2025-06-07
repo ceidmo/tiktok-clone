@@ -14,7 +14,8 @@ import {
   IconButton,
   IconCount,
   LoadingSpinner
-} from './video.styles'; // Make sure file matches casing
+} from './video.styles';
+import { trackEvent } from '../../utils/analytics'; // ✅ Import analytics
 
 const VideoPlayer = ({ video, onLike, currentUser }) => {
   const [playing, setPlaying] = useState(false);
@@ -23,14 +24,12 @@ const VideoPlayer = ({ video, onLike, currentUser }) => {
   const [showComments, setShowComments] = useState(false);
   const videoRef = useRef(null);
 
-  // Check if current user has liked the video
   useEffect(() => {
     if (currentUser && Array.isArray(video.likedBy)) {
       setLiked(video.likedBy.includes(currentUser.id));
     }
   }, [video, currentUser]);
 
-  // Video loading event listeners
   useEffect(() => {
     const vid = videoRef.current;
     if (!vid) return;
@@ -54,8 +53,10 @@ const VideoPlayer = ({ video, onLike, currentUser }) => {
     if (!videoRef.current) return;
     if (playing) {
       videoRef.current.pause();
+      trackEvent('Video Paused', { videoId: video._id }); // ✅
     } else {
       videoRef.current.play();
+      trackEvent('Video Played', { videoId: video._id }); // ✅
     }
     setPlaying(!playing);
   };
@@ -63,11 +64,24 @@ const VideoPlayer = ({ video, onLike, currentUser }) => {
   const handleLike = async () => {
     try {
       await axios.post(`/videos/${video._id}/like`);
-      setLiked((prev) => !prev);
-      if (onLike) onLike(video._id, !liked);
+      const newLikedState = !liked;
+      setLiked(newLikedState);
+      if (onLike) onLike(video._id, newLikedState);
+
+      trackEvent(newLikedState ? 'Video Liked' : 'Video Unliked', {
+        videoId: video._id
+      }); // ✅
     } catch (err) {
       console.error('Error liking video:', err);
     }
+  };
+
+  const handleToggleComments = () => {
+    const newState = !showComments;
+    setShowComments(newState);
+    trackEvent(newState ? 'Comments Opened' : 'Comments Closed', {
+      videoId: video._id
+    }); // ✅
   };
 
   return (
@@ -99,7 +113,7 @@ const VideoPlayer = ({ video, onLike, currentUser }) => {
           <IconCount>{video.likes}</IconCount>
         </IconButton>
 
-        <IconButton onClick={() => setShowComments(!showComments)}>
+        <IconButton onClick={handleToggleComments}>
           <FaComment size={24} />
           <IconCount>{video.comments}</IconCount>
         </IconButton>
@@ -113,7 +127,10 @@ const VideoPlayer = ({ video, onLike, currentUser }) => {
       {showComments && (
         <CommentSection
           videoId={video._id}
-          onClose={() => setShowComments(false)}
+          onClose={() => {
+            setShowComments(false);
+            trackEvent('Comments Closed', { videoId: video._id }); // ✅ double check on close
+          }}
         />
       )}
     </VideoContainer>
