@@ -13,6 +13,7 @@ import UploadPage from './pages/UploadPage';
 import ProfilePage from './pages/ProfilePage';
 import VideoDetailPage from './pages/VideoDetailPage';
 import NotFoundPage from './pages/NotFoundPage';
+import AnalyticsDashboard from './components/AnalyticsDashboard';
 
 import Navbar from './components/Common/Navbar'; // Adjust path if needed
 import ProtectedRoute from './components/Auth/ProtectedRoute'; // Adjust path if needed
@@ -59,10 +60,14 @@ function App() {
   };
 
   return (
+    <div>
+      <AnalyticsDashboard />
+    </div>
     <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
       <GlobalStyles />
       <AuthProvider>
         <VideoContext.Provider value={{ videos, setVideos }}>
+  
           <Router>
             <AppContainer>
               <Navbar toggleTheme={toggleTheme} theme={theme} />
