@@ -101,7 +101,17 @@ function AuthPage() {
     try {
       const endpoint = isLogin ? '/api/auth/login' : '/api/auth/register';
       const response = await axios.post(endpoint, formData);
+
+      // Save token as usual
       localStorage.setItem('token', response.data.token);
+
+      // Save user ID if available (id or _id)
+      if (response.data.user && response.data.user.id) {
+        localStorage.setItem('user_id', response.data.user.id);
+      } else if (response.data.user && response.data.user._id) {
+        localStorage.setItem('user_id', response.data.user._id);
+      }
+
       navigate('/');
     } catch (err) {
       setError(err.response?.data?.message || 'Authentication failed');
