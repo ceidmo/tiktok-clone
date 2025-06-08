@@ -1,14 +1,22 @@
-export const trackEvent = (eventName, properties = {}) => {
+export const trackEvent = (eventName, properties = {}, userId = null) => {
+  // Clone properties to avoid mutating original object
+  const eventProperties = { ...properties };
+
+  // Attach userId if provided
+  if (userId) {
+    eventProperties.userId = userId;
+  }
+
   const event = {
     name: eventName,
-    properties,
+    properties: eventProperties,
     timestamp: new Date().toISOString(),
   };
 
   if (process.env.NODE_ENV === 'production') {
     if (window.analytics && typeof window.analytics.track === 'function') {
       try {
-        window.analytics.track(eventName, properties);
+        window.analytics.track(eventName, eventProperties);
       } catch (error) {
         console.error('[Analytics] Error sending event:', error);
       }
@@ -17,7 +25,7 @@ export const trackEvent = (eventName, properties = {}) => {
     }
   } else {
     // Store in localStorage for development dashboard
-    console.log(`[Analytics] Event: ${eventName}`, properties);
+    console.log(`[Analytics] Event: ${eventName}`, eventProperties);
     try {
       const current = JSON.parse(localStorage.getItem('dev_events')) || [];
       current.push(event);
