@@ -13,10 +13,10 @@ import UploadPage from './pages/UploadPage';
 import ProfilePage from './pages/ProfilePage';
 import VideoDetailPage from './pages/VideoDetailPage';
 import NotFoundPage from './pages/NotFoundPage';
-import AnalyticsDashboard from './components/AnalyticsDashboard';
 
 import Navbar from './components/Common/Navbar'; // Adjust path if needed
 import ProtectedRoute from './components/Auth/ProtectedRoute'; // Adjust path if needed
+import AnalyticsDashboard from './components/AnalyticsDashboard';
 import { AuthProvider } from './context/AuthContext';
 
 axios.defaults.baseURL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
