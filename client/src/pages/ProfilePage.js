@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 import { FaUserPlus, FaUserCheck, FaEllipsisH } from 'react-icons/fa';
 import VideoGrid from '../components/Video/VideoGrid';
 import TabNavigation from './TabNavigation';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../context/AuthContext';
 
 const ProfileContainer = styled.div`
   padding: 20px;
