@@ -15,7 +15,7 @@ import VideoDetailPage from './pages/VideoDetailPage';
 import NotFoundPage from './pages/NotFoundPage';
 import AnalyticsDashboard from './pages/AnalyticsDashboard'; // Keep only this one
 
-import Navbar from './components/Common/Navbar';
+import Navbar from './components/Navbar/EnhancedNavbar';
 import ProtectedRoute from './components/Auth/ProtectedRoute';
 import { AuthProvider } from './context/AuthContext';
 
