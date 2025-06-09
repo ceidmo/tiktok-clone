@@ -1,3 +1,5 @@
+// src/utils/analytics.js
+
 export const trackEvent = (eventName, properties = {}, userId = null) => {
   // Clone properties to avoid mutating original object
   const eventProperties = { ...properties };
