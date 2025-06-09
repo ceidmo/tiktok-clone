@@ -1,140 +1,95 @@
-import React from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-import { View, TouchableOpacity, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { styled } from '@mui/material/styles';
+import BottomNavigation from '@mui/material/BottomNavigation';
+import BottomNavigationAction from '@mui/material/BottomNavigationAction';
+import HomeIcon from '@mui/icons-material/Home';
+import SearchIcon from '@mui/icons-material/Search';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
+import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
+import { Box, Fab } from '@mui/material';
 
-// Import your screen components
-import HomeScreen from './HomeScreen';
-import DiscoverScreen from './DiscoverScreen';
-import CreatePostScreen from './CreatePostScreen';
-import InboxScreen from './InboxScreen';
-import ProfileScreen from './ProfileScreen';
-
-const Tab = createBottomTabNavigator();
-
-const CustomTabBarButton = ({ children, onPress }) => (
-  <TouchableOpacity
-    style={styles.customButton}
-    onPress={onPress}
-    activeOpacity={0.7}
-  >
-    <View style={styles.buttonContainer}>
-      {children}
-    </View>
-  </TouchableOpacity>
-);
-
-const TabNavigation = () => {
-  return (
-    <Tab.Navigator
-      screenOptions={{
-        tabBarShowLabel: false,
-        tabBarStyle: styles.tabBar,
-        headerShown: false,
-      }}
-    >
-      <Tab.Screen
-        name="Home"
-        component={HomeScreen}
-        options={{
-          tabBarIcon: ({ focused }) => (
-            <Ionicons
-              name={focused ? 'home' : 'home-outline'}
-              size={28}
-              color={focused ? '#fff' : '#888'}
-            />
-          ),
-        }}
-      />
-
-      <Tab.Screen
-        name="Discover"
-        component={DiscoverScreen}
-        options={{
-          tabBarIcon: ({ focused }) => (
-            <Ionicons
-              name={focused ? 'search' : 'search-outline'}
-              size={28}
-              color={focused ? '#fff' : '#888'}
-            />
-          ),
-        }}
-      />
-
-      <Tab.Screen
-        name="Create"
-        component={CreatePostScreen}
-        options={{
-          tabBarIcon: ({ focused }) => (
-            <MaterialCommunityIcons
-              name="plus-circle"
-              size={48}
-              color="#fe2c55"
-            />
-          ),
-          tabBarButton: (props) => <CustomTabBarButton {...props} />,
-        }}
-      />
-
-      <Tab.Screen
-        name="Inbox"
-        component={InboxScreen}
-        options={{
-          tabBarIcon: ({ focused }) => (
-            <Ionicons
-              name={focused ? 'chatbubble-ellipses' : 'chatbubble-ellipses-outline'}
-              size={28}
-              color={focused ? '#fff' : '#888'}
-            />
-          ),
-        }}
-      />
-
-      <Tab.Screen
-        name="Profile"
-        component={ProfileScreen}
-        options={{
-          tabBarIcon: ({ focused }) => (
-            <Ionicons
-              name={focused ? 'person' : 'person-outline'}
-              size={28}
-              color={focused ? '#fff' : '#888'}
-            />
-          ),
-        }}
-      />
-    </Tab.Navigator>
-  );
-};
-
-const styles = StyleSheet.create({
-  tabBar: {
-    position: 'absolute',
-    bottom: 20,
-    left: 20,
-    right: 20,
-    borderRadius: 15,
-    height: 70,
-    backgroundColor: '#111',
-    borderTopWidth: 0,
-    elevation: 0,
-    shadowOpacity: 0,
-  },
-  customButton: {
-    top: -20,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  buttonContainer: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    backgroundColor: '#111',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 4,
-    borderColor: '#222',
+const StyledBottomNavigation = styled(BottomNavigation)({
+  position: 'fixed',
+  bottom: 20,
+  left: '50%',
+  transform: 'translateX(-50%)',
+  width: 'calc(100% - 40px)',
+  maxWidth: 500,
+  borderRadius: 15,
+  height: 70,
+  backgroundColor: '#111',
+  '& .Mui-selected': {
+    color: '#fff !important',
   },
 });
+
+const CustomFab = styled(Fab)({
+  position: 'absolute',
+  top: -30,
+  left: '50%',
+  transform: 'translateX(-50%)',
+  backgroundColor: '#fe2c55',
+  color: 'white',
+  width: 60,
+  height: 60,
+  '&:hover': {
+    backgroundColor: '#fe2c55',
+  },
+});
+
+const TabNavigation = () => {
+  const location = useLocation();
+  const [value, setValue] = useState(location.pathname);
+
+  return (
+    <Box sx={{ position: 'relative', pb: 10 }}>
+      {/* Your screen content would go here */}
+      
+      <StyledBottomNavigation
+        value={value}
+        onChange={(event, newValue) => setValue(newValue)}
+        showLabels
+      >
+        <BottomNavigationAction
+          component={Link}
+          to="/"
+          value="/"
+          icon={<HomeIcon />}
+        />
+        <BottomNavigationAction
+          component={Link}
+          to="/discover"
+          value="/discover"
+          icon={<SearchIcon />}
+        />
+        <BottomNavigationAction
+          component={Link}
+          to="/create"
+          value="/create"
+          icon={
+            <CustomFab aria-label="add">
+              <AddCircleIcon fontSize="large" />
+            </CustomFab>
+          }
+          sx={{ opacity: 1 }}
+        />
+        <BottomNavigationAction
+          component={Link}
+          to="/inbox"
+          value="/inbox"
+          icon={<ChatBubbleOutlineIcon />}
+        />
+        <BottomNavigationAction
+          component={Link}
+          to="/profile"
+          value="/profile"
+          icon={<PersonOutlineIcon />}
+        />
+      </StyledBottomNavigation>
+    </Box>
+  );
+};
 
 export default TabNavigation;
