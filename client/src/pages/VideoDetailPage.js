@@ -3,8 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
 import { FaHeart, FaRegHeart, FaComment, FaShare, FaArrowLeft } from 'react-icons/fa';
-import CommentSection from '../components/CommentSection';
-import VideoGrid from '../components/VideoGrid';
+import CommentSection from '../components/Comment/CommentSection';
+import VideoGrid from '../components/Video/VideoGrid';
 
 // Styled components
 const DetailContainer = styled.div`
