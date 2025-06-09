@@ -13,17 +13,16 @@ import UploadPage from './pages/UploadPage';
 import ProfilePage from './pages/ProfilePage';
 import VideoDetailPage from './pages/VideoDetailPage';
 import NotFoundPage from './pages/NotFoundPage';
+import AnalyticsDashboard from './pages/AnalyticsDashboard'; // Keep only this one
 
-import Navbar from './components/Common/Navbar'; // Adjust path if needed
-import ProtectedRoute from './components/Auth/ProtectedRoute'; // Adjust path if needed
-import AnalyticsDashboard from './components/AnalyticsDashboard';
+import Navbar from './components/Common/Navbar';
+import ProtectedRoute from './components/Auth/ProtectedRoute';
 import { AuthProvider } from './context/AuthContext';
 
 axios.defaults.baseURL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
 
 export const VideoContext = createContext();
 
-// Styled container
 const AppContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -60,14 +59,10 @@ function App() {
   };
 
   return (
-    <div>
-      <AnalyticsDashboard />
-    </div>
     <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
       <GlobalStyles />
       <AuthProvider>
         <VideoContext.Provider value={{ videos, setVideos }}>
-  
           <Router>
             <AppContainer>
               <Navbar toggleTheme={toggleTheme} theme={theme} />
@@ -77,14 +72,14 @@ function App() {
                 <Route path="/video/:id" element={<VideoDetailPage />} />
 
                 {/* Protected Routes */}
-                 <Route 
-                   path="/analytics" 
-                    element={
+                <Route
+                  path="/analytics"
+                  element={
+                    <ProtectedRoute>
                       <AnalyticsDashboard />
-                      </ProtectedRoute>
-                    } 
-                  />
-                  
+                    </ProtectedRoute>
+                  }
+                />
                 <Route
                   path="/"
                   element={
