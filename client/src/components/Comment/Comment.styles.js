@@ -1,6 +1,6 @@
 // components/Comment/Comment.styles.js
 import styled from 'styled-components';
-import { devices } from '../../styles/responsive';
+import { device } from '../../styles/responsive'; // ✅ FIXED import (was `devices`)
 
 export const CommentContainer = styled.div`
   position: absolute;
@@ -17,7 +17,7 @@ export const CommentContainer = styled.div`
   transition: transform 0.3s ease-out;
   z-index: 10;
 
-  @media ${devices.mobile} {
+  @media ${device.mobile} {
     height: 70%;
     padding: 15px;
   }
@@ -31,7 +31,7 @@ export const CommentHeader = styled.div`
   padding-bottom: 10px;
   border-bottom: 1px solid #333;
 
-  @media ${devices.mobile} {
+  @media ${device.mobile} {
     margin-bottom: 15px;
   }
 `;
@@ -40,7 +40,7 @@ export const CommentTitle = styled.h3`
   margin: 0;
   font-size: 18px;
 
-  @media ${devices.mobile} {
+  @media ${device.mobile} {
     font-size: 16px;
   }
 `;
@@ -53,7 +53,7 @@ export const CloseButton = styled.button`
   cursor: pointer;
   padding: 5px;
 
-  @media ${devices.mobile} {
+  @media ${device.mobile} {
     font-size: 18px;
   }
 `;
@@ -64,7 +64,7 @@ export const CommentList = styled.div`
   margin-bottom: 20px;
   padding-right: 5px;
 
-  @media ${devices.mobile} {
+  @media ${device.mobile} {
     height: 65%;
     margin-bottom: 15px;
   }
@@ -74,7 +74,7 @@ export const CommentItem = styled.div`
   display: flex;
   margin-bottom: 15px;
 
-  @media ${devices.mobile} {
+  @media ${device.mobile} {
     margin-bottom: 12px;
   }
 `;
@@ -83,7 +83,7 @@ export const CommentAvatar = styled.div`
   margin-right: 10px;
 
   svg {
-    @media ${devices.mobile} {
+    @media ${device.mobile} {
       width: 20px;
       height: 20px;
     }
@@ -99,7 +99,7 @@ export const CommentUser = styled.div`
   margin-bottom: 5px;
   font-size: 14px;
 
-  @media ${devices.mobile} {
+  @media ${device.mobile} {
     font-size: 13px;
   }
 `;
@@ -107,7 +107,7 @@ export const CommentUser = styled.div`
 export const CommentText = styled.div`
   font-size: 14px;
 
-  @media ${devices.mobile} {
+  @media ${device.mobile} {
     font-size: 13px;
   }
 `;
@@ -118,7 +118,7 @@ export const CommentForm = styled.form`
   border-top: 1px solid #333;
   padding-top: 15px;
 
-  @media ${devices.mobile} {
+  @media ${device.mobile} {
     padding-top: 10px;
   }
 `;
@@ -133,7 +133,7 @@ export const CommentInput = styled.input`
   outline: none;
   font-size: 14px;
 
-  @media ${devices.mobile} {
+  @media ${device.mobile} {
     padding: 8px 12px;
     font-size: 13px;
   }
@@ -148,7 +148,7 @@ export const SendButton = styled.button`
   cursor: pointer;
   padding: 5px;
 
-  @media ${devices.mobile} {
+  @media ${device.mobile} {
     font-size: 18px;
     margin-left: 8px;
   }
