@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { FaUserPlus, FaUserCheck, FaEllipsisH } from 'react-icons/fa';
-import VideoGrid from '../Video/VideoGrid';
+import VideoGrid from '../components/Video/VideoGrid';
 import TabNavigation from './TabNavigation';
 import { useAuth } from '../../context/AuthContext';
 
